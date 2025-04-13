@@ -10,6 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/Bhushangupta162/Astrabyte/db"
 	"github.com/Bhushangupta162/Astrabyte/handlers"
+	"github.com/Bhushangupta162/Astrabyte/middleware"
 )
 
 func main() {
@@ -48,6 +49,11 @@ func main() {
 
 	router.HandleFunc("/api/login", handlers.LoginHandler).Methods("POST")
 
+	router.Handle("/api/me", middleware.JWTAuthMiddleware(http.HandlerFunc(handlers.MeHandler))).Methods("GET")
+
+	router.Handle("/api/upload", middleware.JWTAuthMiddleware(http.HandlerFunc(handlers.UploadHandler))).Methods("POST")
+
+	router.Handle("/api/file/{id}", middleware.JWTAuthMiddleware(http.HandlerFunc(handlers.DownloadHandler))).Methods("GET")
 
 	fmt.Println("🚀 Server running on port", port)
 	log.Fatal(http.ListenAndServe(":"+port, router))

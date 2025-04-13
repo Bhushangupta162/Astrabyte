@@ -8,6 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 	"time"
 	"os"
+	"github.com/Bhushangupta162/Astrabyte/middleware"
 	"github.com/Bhushangupta162/Astrabyte/db"
 	// "github.com/Bhushangupta162/Astrabyte/models"
 	"golang.org/x/crypto/bcrypt"
@@ -98,4 +99,17 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	// Send token
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(fmt.Sprintf(`{"token": "%s"}`, tokenString)))
+}
+
+func MeHandler(w http.ResponseWriter, r *http.Request) {
+	userID := r.Context().Value(middleware.UserIDKey)
+	if userID == nil {
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		return
+	}
+
+	// Optional: Fetch more info from DB using userID
+	response := fmt.Sprintf(`{"user_id": "%s"}`, userID)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(response))
 }
