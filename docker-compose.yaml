@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:15
+    container_name: astrabyte_db
+    restart: always
+    environment:
+      POSTGRES_USER: astrabyte
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_DB: astrabyte_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    container_name: astrabyte_backend
+    restart: always
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+volumes:
+  db_data:

@@ -1,0 +1,25 @@
+# 🔐 Sensitive environment configs
+.env
+
+# 🏗️ Build outputs
+main
+*.exe
+*.out
+*.test
+
+# 🚀 Go Modules cache
+vendor/
+
+# 🐳 Docker junk
+*.pid
+*.log
+
+# 🧠 IDEs & OS
+.vscode/
+.idea/
+*.DS_Store
+__pycache__/
+
+# 📦 Dependency lock files (KEEP these tracked)
+# go.mod and go.sum should NOT be ignored — they're essential
+# So do NOT add them to .gitignore
